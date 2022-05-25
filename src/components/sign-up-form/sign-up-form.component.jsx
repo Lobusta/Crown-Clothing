@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { createAuthUserwithEmailandPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
-
+import FormInput from "../form-input/form-input.component";
+import './sign-up-form.style.scss'
+import Button from "../Button/button.components";
 
 const defaultFormFields = {
     displayName: '',
@@ -11,14 +13,14 @@ const defaultFormFields = {
 
 
 const SignUpForm = () => {
-  
-  const [formfields, setformfields] = useState(defaultFormFields);
-  const {displayName, email, password, confirmpassword} = formfields;
-  
-  
- const resetFormfields = () => {
-     setformfields(defaultFormFields);
- }
+
+    const [formfields, setformfields] = useState(defaultFormFields);
+    const { displayName, email, password, confirmpassword } = formfields;
+
+
+    const resetFormfields = () => {
+        setformfields(defaultFormFields);
+    }
 
 
 
@@ -30,19 +32,19 @@ const SignUpForm = () => {
             return;
         }
         try {
-            const {user} = await createAuthUserwithEmailandPassword(email, password);
-            await createUserDocumentFromAuth(user, {displayName});
+            const { user } = await createAuthUserwithEmailandPassword(email, password);
+            await createUserDocumentFromAuth(user, { displayName });
             resetFormfields();
-            
+
         }
-        catch(error) {
-        if (error.code == 'auth/email-already-in-use') {
-            alert ('Cannot create user, email already in use')
+        catch (error) {
+            if (error.code === 'auth/email-already-in-use') {
+                alert('Cannot create user, email already in use')
+            }
+            else {
+                console.log('error creating user with email and id', error);
+            }
         }
-        else {
-        console.log ('error creating user with email and id', error);
-        }
-    }
 
 
     }
@@ -50,35 +52,30 @@ const SignUpForm = () => {
 
     const formhandlechange = (event) => {
 
-        const {name, value} = event.target;
-    
-        setformfields({ ...formfields, [name]: value});
-    
-        };
+        const { name, value } = event.target;
+
+        setformfields({ ...formfields, [name]: value });
+
+    };
 
 
-  
+
     return (
-    <div> 
-    <h1>Sign up with you email and passowrd </h1>
-    <form onSubmit={handleSubmit}>
-        <label>Display Name</label>
-        <input type='text' required onChange={formhandlechange} name='displayName' value={displayName}/>
+        <div className="sign-up-container">
+            <h2>Don't have an account? Sign up!</h2>
+            <span>Sign up with you email and password </span>
+            <form onSubmit={handleSubmit}>
+              
+                <FormInput label="Display Name" type='text' required onChange={formhandlechange} name='displayName' value={displayName} />
+                <FormInput label="Email" type='email' required onChange={formhandlechange} name='email' value={email} />
+                <FormInput label="Password" type='password' required onChange={formhandlechange} name='password' value={password} />
+                <FormInput label="Confirm Password" type='password' required onChange={formhandlechange} name='confirmpassword' value={confirmpassword} />
 
-        <label>Email</label>
-        <input type='email' required onChange={formhandlechange} name='email' value={email}/>
+                <Button  type="submit">Sign Up</Button>
 
-        <label>Password</label>
-        <input type= 'password' required onChange={formhandlechange} name='password' value={password}/>
-
-        <label>Confirm Password</label>
-        <input type= 'password' required onChange={formhandlechange} name='confirmpassword' value={confirmpassword}/>
-        
-        <button type="submit">Sign Up</button>
-    
-    </form>
-    </div> 
-  )
+            </form>
+        </div>
+    )
 }
 
 export default SignUpForm; 
