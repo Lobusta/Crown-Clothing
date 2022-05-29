@@ -16,7 +16,7 @@ export const UserProvider = ({children}) => {
     const [currentUser, setcurrentUser] = useState(null);
     const value = {currentUser, setcurrentUser};
     
-  
+    
     useEffect(() => {
       const stoplistening =  onAuthStateChangedListener((user) => {
           if (user) {

@@ -7,6 +7,7 @@ import Checkout from "./routes/checkout/checkout.component";
 
 
 
+
 function App() {
 return (
   
@@ -14,8 +15,10 @@ return (
     <Route path= '/' element={<Navigation />} >
       <Route index element={<Home />} />
       <Route path='auth' element={<Authentication />} />
-      <Route path='shop' element={<Shop />} />
       <Route path='checkout' element = {<Checkout/>}/>
+      <Route path='shop/*' element={<Shop />} />
+      
+      
 
     </Route>
 
