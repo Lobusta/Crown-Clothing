@@ -1,9 +1,10 @@
-import './category.style.scss'
+import { TitleCategoryPage, CategoriesContainer } from './category.style';
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect , Fragment} from 'react';
 import { useContext } from 'react';
 import { CategoriesContext } from '../../context/categories.context';
 import ProductCard from '../../components/product-card/product-card.component';
+
 
 
 const Category = () => {
@@ -20,11 +21,15 @@ useEffect(() => {
 }, [category,CategoriesMap]) 
 
 return (
-    <div className='categories-container'>
+    <Fragment>
+    <TitleCategoryPage>{category.toUpperCase()}</TitleCategoryPage>
+    <CategoriesContainer>
+        
         {products &&
             products.map((product) => <ProductCard key={product.id} product={product} /> )
         }
-    </div>
+    </CategoriesContainer>
+    </Fragment>
 )
 
 }
